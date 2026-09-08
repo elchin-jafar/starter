@@ -1,7 +1,7 @@
-import { keepPreviousData, useQuery } from '@tanstack/react-query';
-import { RevalidateTags } from '../../../../data/utils/revalidate_tags';
-import { UserRepository } from '../repositories';
-import { DEFAULT_USERS_PAGE_SIZE } from './getAllUsers.api';
+import { RevalidateTags } from "@/data/utils/revalidate_tags";
+import { keepPreviousData, useQuery } from "@tanstack/react-query";
+import { UserRepository } from "../repositories";
+import { DEFAULT_USERS_PAGE_SIZE } from "./getAllUsers.api";
 
 type UseSearchUsersApiParams = {
   q: string;

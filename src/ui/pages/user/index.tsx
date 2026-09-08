@@ -1,7 +1,7 @@
+import { useGetByIdUserApi } from "@/app/modules/users/api/getByIdUser.api";
+import UserCard from "@/ui/features/user/UserCard";
 import { Spinner, Typography } from "@heroui/react";
-import { useGetByIdUserApi } from "../../../app/modules/users/api/getByIdUser.api";
 import { useParams } from "react-router";
-import UserCard from "../../features/user/UserCard";
 
 const UserPage = () => {
   const { id } = useParams();

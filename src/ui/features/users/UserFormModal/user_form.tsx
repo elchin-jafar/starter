@@ -1,4 +1,8 @@
 import {
+  UserFormSchema,
+  type UserFormValues,
+} from "@/app/modules/users/schemas/dto_validations/user_form.schema";
+import {
   Button,
   FieldError,
   Form,
@@ -8,10 +12,6 @@ import {
   TextField,
 } from "@heroui/react";
 import { type SyntheticEvent, useState } from "react";
-import {
-  UserFormSchema,
-  type UserFormValues,
-} from "../../../../app/modules/users/schemas/dto_validations/user_form.schema";
 
 type Props = {
   defaultValues: UserFormValues;

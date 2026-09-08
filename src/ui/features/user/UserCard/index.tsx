@@ -1,6 +1,6 @@
-import { Button, Card } from '@heroui/react';
-import type { UserModel } from '../../../../app/modules/users/models/get_all_users.model';
-import { Link } from 'react-router';
+import type { UserModel } from "@/app/modules/users/models/get_all_users.model";
+import { Button, Card } from "@heroui/react";
+import { Link } from "react-router";
 
 const UserCard = ({ user }: { user: UserModel }) => {
   return (

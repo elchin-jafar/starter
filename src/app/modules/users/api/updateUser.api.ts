@@ -1,8 +1,8 @@
-import { toast } from '@heroui/react';
-import { useMutation, useQueryClient } from '@tanstack/react-query';
-import { RevalidateTags } from '../../../../data/utils/revalidate_tags';
-import type { UpdateUserReqDTO } from '../req_dto/update_user.dto';
-import { UserRepository } from '../repositories';
+import { RevalidateTags } from "@/data/utils/revalidate_tags";
+import { toast } from "@heroui/react";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
+import { UserRepository } from "../repositories";
+import type { UpdateUserReqDTO } from "../req_dto/update_user.dto";
 
 type UpdateUserVars = { id: number; data: UpdateUserReqDTO };
 
@@ -13,7 +13,7 @@ export const useUpdateUserApi = () => {
     mutationFn: ({ id, data }: UpdateUserVars) =>
       UserRepository.updateUser(id, data),
     onSuccess: (_res, { id }) => {
-      toast.success('User updated');
+      toast.success("User updated");
       return Promise.all([
         queryClient.invalidateQueries({ queryKey: RevalidateTags.users.base }),
         queryClient.invalidateQueries({
@@ -22,7 +22,7 @@ export const useUpdateUserApi = () => {
       ]);
     },
     onError: () => {
-      toast.danger('Could not update user');
+      toast.danger("Could not update user");
     },
   });
 };

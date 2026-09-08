@@ -1,5 +1,5 @@
-import axios from 'axios';
-import { BASE_URL } from '../../data/utils/environments';
+import { BASE_URL } from "@/data/utils/environments";
+import axios from "axios";
 
 type ApiError = {
   status: number;
@@ -13,20 +13,20 @@ axiosInstance.interceptors.response.use(
   (res) => res,
   (err) => {
     if (!axios.isAxiosError(err)) {
-      const e: ApiError = { status: 0, message: 'Xəta baş verdi' };
+      const e: ApiError = { status: 0, message: "Xəta baş verdi" };
       return Promise.reject(e);
     }
 
     const status = err.response?.status ?? 0;
     const data = err.response?.data;
 
-    if (typeof data === 'string') {
+    if (typeof data === "string") {
       const e: ApiError = { status, message: data };
       return Promise.reject(e);
     }
 
     const msg = data?.message;
-    const message = Array.isArray(msg) ? msg.join(', ') : (msg ?? err.message);
+    const message = Array.isArray(msg) ? msg.join(", ") : (msg ?? err.message);
 
     const e: ApiError = {
       status,

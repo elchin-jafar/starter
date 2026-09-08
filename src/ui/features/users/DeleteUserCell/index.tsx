@@ -1,7 +1,7 @@
-import { TrashIcon } from '@heroicons/react/24/outline';
-import { Button, Popover } from '@heroui/react';
-import type { UserModel } from '../../../../app/modules/users/models/get_all_users.model';
-import { DeleteUserCellVM } from './delete_user_cell.vm';
+import type { UserModel } from "@/app/modules/users/models/get_all_users.model";
+import { TrashIcon } from "@heroicons/react/24/outline";
+import { Button, Popover } from "@heroui/react";
+import { DeleteUserCellVM } from "./delete_user_cell.vm";
 
 const DeleteUserCell = ({ user }: { user: UserModel }) => {
   const { handleDelete } = DeleteUserCellVM(user);

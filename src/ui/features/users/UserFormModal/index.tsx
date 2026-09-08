@@ -1,5 +1,5 @@
+import type { UserModel } from "@/app/modules/users/models/get_all_users.model";
 import { Modal, useOverlayState } from "@heroui/react";
-import type { UserModel } from "../../../../app/modules/users/models/get_all_users.model";
 import UserForm from "./user_form";
 import { UserFormModalVM } from "./user_form_modal.vm";
 

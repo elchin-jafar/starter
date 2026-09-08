@@ -1,8 +1,8 @@
 import { lazy } from "react";
 import { useRoutes, type RouteObject } from "react-router";
 
-const AllUsersPage = lazy(() => import("../../ui/pages/users"));
-const UserPage = lazy(() => import("../../ui/pages/user"));
+const AllUsersPage = lazy(() => import("@/ui/pages/users"));
+const UserPage = lazy(() => import("@/ui/pages/user"));
 
 const AppRoutes = () => {
   const routesConfig: RouteObject[] = [

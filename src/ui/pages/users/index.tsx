@@ -1,4 +1,14 @@
 import {
+  DEFAULT_USERS_PAGE_SIZE,
+  useGetAllUsersApi,
+} from "@/app/modules/users/api/getAllUsers.api";
+import { useSearchUsersApi } from "@/app/modules/users/api/searchUsers.api";
+import type { UserModel } from "@/app/modules/users/models/get_all_users.model";
+import DeleteUserCell from "@/ui/features/users/DeleteUserCell";
+import GoToUserCell from "@/ui/features/users/GoToUser";
+import UserFormModal from "@/ui/features/users/UserFormModal";
+import { PencilSquareIcon, PlusIcon } from "@heroicons/react/24/outline";
+import {
   Button,
   Pagination,
   SearchField,
@@ -7,18 +17,8 @@ import {
   Typography,
   useOverlayState,
 } from "@heroui/react";
-import { PencilSquareIcon, PlusIcon } from "@heroicons/react/24/outline";
 import { useCallback, useEffect, useState } from "react";
 import { useSearchParams } from "react-router";
-import {
-  DEFAULT_USERS_PAGE_SIZE,
-  useGetAllUsersApi,
-} from "../../../app/modules/users/api/getAllUsers.api";
-import { useSearchUsersApi } from "../../../app/modules/users/api/searchUsers.api";
-import type { UserModel } from "../../../app/modules/users/models/get_all_users.model";
-import DeleteUserCell from "../../features/users/DeleteUserCell";
-import GoToUserCell from "../../features/users/GoToUser";
-import UserFormModal from "../../features/users/UserFormModal";
 
 const PAGE_SIZE = DEFAULT_USERS_PAGE_SIZE;
 const SEARCH_DEBOUNCE_MS = 400;
