@@ -1,5 +1,6 @@
 import { toast } from '@heroui/react';
 import { useMutation, useQueryClient } from '@tanstack/react-query';
+import { RevalidateTags } from '../../../../data/utils/revalidate_tags';
 import type { UpdateUserReqDTO } from '../req_dto/update_user.dto';
 import { UserRepository } from '../repositories';
 
@@ -14,8 +15,10 @@ export const useUpdateUserApi = () => {
     onSuccess: (_res, { id }) => {
       toast.success('User updated');
       return Promise.all([
-        queryClient.invalidateQueries({ queryKey: ['users'] }),
-        queryClient.invalidateQueries({ queryKey: ['userById', id] }),
+        queryClient.invalidateQueries({ queryKey: RevalidateTags.users.base }),
+        queryClient.invalidateQueries({
+          queryKey: RevalidateTags.users.byId(id),
+        }),
       ]);
     },
     onError: () => {

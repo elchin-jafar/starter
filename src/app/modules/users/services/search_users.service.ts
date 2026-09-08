@@ -1,12 +1,23 @@
 import { endpoints } from "../../../../data/utils/endpoints";
 import axiosInstance from "../../../lib/axios.config";
 import { validator } from "../../../utils/validator";
+import type { AllUsersResDTO } from "../res_dto/get_all_users.dto";
 import { AllUsersSchema } from "../schemas/dto_validations/get_all_users.schema";
+import type { GetAllUsersParams } from "./get_all_users.service";
 
-export const searchUserService = async ({ query, limit, skip }: any) => {
-  const res = await axiosInstance.get(endpoints.users.searchUser(), {
-    params: { query, limit, skip },
-  });
+export type SearchUsersParams = GetAllUsersParams & {
+  q: string;
+};
+
+export const searchUserService = async ({
+  q,
+  limit,
+  skip,
+}: SearchUsersParams) => {
+  const res = await axiosInstance.get<AllUsersResDTO>(
+    endpoints.users.searchUser(),
+    { params: { q, limit, skip } },
+  );
 
   return validator({
     endpoint: endpoints.users.searchUser(),

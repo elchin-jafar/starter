@@ -1,20 +1,21 @@
-import { lazy } from 'react';
-import { useRoutes, type RouteObject } from 'react-router';
-const AllUsersPage = lazy(() => import('../../ui/pages/users'));
-const UserPage = lazy(() => import('../../ui/pages/user'));
+import { lazy } from "react";
+import { useRoutes, type RouteObject } from "react-router";
+
+const AllUsersPage = lazy(() => import("../../ui/pages/users"));
+const UserPage = lazy(() => import("../../ui/pages/user"));
 
 const AppRoutes = () => {
   const routesConfig: RouteObject[] = [
     {
-      path: '/',
+      path: "/",
       element: <AllUsersPage />,
     },
     {
-      path: '/user/:id',
+      path: "/user/:id",
       element: <UserPage />,
     },
     {
-      path: '*',
+      path: "*",
       element: <>Not Found</>,
     },
   ];

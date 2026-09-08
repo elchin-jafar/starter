@@ -1,11 +1,10 @@
-import { Modal, useOverlayState } from '@heroui/react';
-import type { UserModel } from '../../../../app/modules/users/models/get_all_users.model';
-import UserForm from './user_form';
-import { UserFormModalVM } from './user_form_modal.vm';
+import { Modal, useOverlayState } from "@heroui/react";
+import type { UserModel } from "../../../../app/modules/users/models/get_all_users.model";
+import UserForm from "./user_form";
+import { UserFormModalVM } from "./user_form_modal.vm";
 
 type Props = {
   state: ReturnType<typeof useOverlayState>;
-  /** Provided => edit mode. Omitted => add mode. */
   user?: UserModel;
 };
 
@@ -21,8 +20,7 @@ const UserFormModal = ({ state, user }: Props) => {
             <Modal.Header>{title}</Modal.Header>
             <Modal.Body>
               <UserForm
-                // remount the form when the target changes so state resets
-                key={user?.id ?? 'new'}
+                key={user?.id ?? "new"}
                 defaultValues={defaultValues}
                 submitLabel={submitLabel}
                 isPending={isPending}
