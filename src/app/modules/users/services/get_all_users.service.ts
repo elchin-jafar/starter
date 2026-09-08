@@ -4,9 +4,15 @@ import { validator } from '../../../utils/validator';
 import type { AllUsersResDTO } from '../res_dto/get_all_users.dto';
 import { AllUsersSchema } from '../schemas/dto_validations/get_all_users.schema';
 
-export const getAllUsersService = async () => {
+export type GetAllUsersParams = {
+  limit: number;
+  skip: number;
+};
+
+export const getAllUsersService = async ({ limit, skip }: GetAllUsersParams) => {
   const res = await axiosInstance.get<AllUsersResDTO>(
     endpoints.users.getAllUsers(),
+    { params: { limit, skip } },
   );
 
   return validator({

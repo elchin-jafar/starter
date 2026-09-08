@@ -1,13 +1,14 @@
-import { addUserService } from '../services/add_user.service';
-import { deleteUserService } from '../services/delete_user.service';
-import { getAllUsersService } from '../services/get_all_users.service';
-import { getByIdUserService } from '../services/get_by_id_user.service';
-import { updateUserService } from '../services/update_user.service';
-import type { UserRepositoryType } from './users.repository.type';
+import { addUserService } from "../services/add_user.service";
+import { deleteUserService } from "../services/delete_user.service";
+import { getAllUsersService } from "../services/get_all_users.service";
+import { getByIdUserService } from "../services/get_by_id_user.service";
+import { searchUserService } from "../services/search_users.service";
+import { updateUserService } from "../services/update_user.service";
+import type { UserRepositoryType } from "./users.repository.type";
 
 export const UserRepository: UserRepositoryType = {
-  async getAllUsers() {
-    return await getAllUsersService();
+  async getAllUsers(params) {
+    return await getAllUsersService(params);
   },
   async getByIdUser(id) {
     return await getByIdUserService(id);
@@ -20,5 +21,8 @@ export const UserRepository: UserRepositoryType = {
   },
   async deleteUser(id) {
     return await deleteUserService({ id });
+  },
+  async searchUser(params) {
+    return await searchUserService(params);
   },
 };

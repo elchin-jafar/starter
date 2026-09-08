@@ -1,6 +1,17 @@
-import { Button } from '@heroui/react';
-import { useState } from 'react';
-import type { UserFormValues } from '../../../../app/modules/users/schemas/dto_validations/user_form.schema';
+import {
+  Button,
+  FieldError,
+  Form,
+  Input,
+  Label,
+  NumberField,
+  TextField,
+} from "@heroui/react";
+import { type SyntheticEvent, useState } from "react";
+import {
+  UserFormSchema,
+  type UserFormValues,
+} from "../../../../app/modules/users/schemas/dto_validations/user_form.schema";
 
 type Props = {
   defaultValues: UserFormValues;
@@ -9,55 +20,108 @@ type Props = {
   onSubmit: (values: UserFormValues) => void;
 };
 
-const UserForm = ({ defaultValues, submitLabel, isPending, onSubmit }: Props) => {
-  const [values, setValues] = useState<UserFormValues>(defaultValues);
+type FieldErrors = Partial<Record<keyof UserFormValues, string>>;
 
-  const setField = (key: keyof UserFormValues) => (raw: string) =>
-    setValues((prev) => ({ ...prev, [key]: key === 'age' ? Number(raw) : raw }));
+const UserForm = ({
+  defaultValues,
+  submitLabel,
+  isPending,
+  onSubmit,
+}: Props) => {
+  const [values, setValues] = useState<UserFormValues>(defaultValues);
+  const [errors, setErrors] = useState<FieldErrors>({});
+
+  const setField =
+    <K extends keyof UserFormValues>(key: K) =>
+    (value: UserFormValues[K]) => {
+      setValues((prev) => ({ ...prev, [key]: value }));
+      // Clear the field error as soon as the user edits it.
+      setErrors((prev) => {
+        if (!prev[key]) return prev;
+        const next = { ...prev };
+        delete next[key];
+        return next;
+      });
+    };
+
+  const handleSubmit = (event: SyntheticEvent<HTMLFormElement>) => {
+    event.preventDefault();
+
+    const result = UserFormSchema.safeParse(values);
+    if (!result.success) {
+      const fieldErrors = result.error.flatten().fieldErrors;
+      const next: FieldErrors = {};
+      (Object.keys(fieldErrors) as Array<keyof UserFormValues>).forEach(
+        (key) => {
+          const message = fieldErrors[key]?.[0];
+          if (message) next[key] = message;
+        },
+      );
+      setErrors(next);
+      return;
+    }
+
+    setErrors({});
+    onSubmit(result.data);
+  };
 
   return (
-    <form
+    <Form
       className="flex flex-col gap-3"
-      onSubmit={(e) => {
-        e.preventDefault();
-        onSubmit(values);
-      }}
+      validationBehavior="aria"
+      validationErrors={errors}
+      onSubmit={handleSubmit}
     >
-      {/* Swap these native inputs for HeroUI <TextField> / <NumberField>. */}
-      <label className="flex flex-col gap-1 text-sm">
-        First name
-        <input
-          className="rounded border px-2 py-1"
-          value={values.firstName}
-          onChange={(e) => setField('firstName')(e.target.value)}
-        />
-      </label>
-      <label className="flex flex-col gap-1 text-sm">
-        Last name
-        <input
-          className="rounded border px-2 py-1"
-          value={values.lastName}
-          onChange={(e) => setField('lastName')(e.target.value)}
-        />
-      </label>
-      <label className="flex flex-col gap-1 text-sm">
-        Age
-        <input
-          type="number"
-          className="rounded border px-2 py-1"
-          value={values.age}
-          onChange={(e) => setField('age')(e.target.value)}
-        />
-      </label>
-      <label className="flex flex-col gap-1 text-sm">
-        Email
-        <input
-          type="email"
-          className="rounded border px-2 py-1"
-          value={values.email}
-          onChange={(e) => setField('email')(e.target.value)}
-        />
-      </label>
+      <TextField
+        name="firstName"
+        value={values.firstName}
+        onChange={setField("firstName")}
+        isRequired
+      >
+        <Label>First name</Label>
+        <Input />
+        <FieldError />
+      </TextField>
+
+      <TextField
+        name="lastName"
+        value={values.lastName}
+        onChange={setField("lastName")}
+        isRequired
+      >
+        <Label>Last name</Label>
+        <Input />
+        <FieldError />
+      </TextField>
+
+      <NumberField
+        name="age"
+        value={values.age}
+        onChange={setField("age")}
+        minValue={0}
+        maxValue={120}
+        isRequired
+      >
+        <Label>Age</Label>
+        <NumberField.Group>
+          <NumberField.DecrementButton />
+          <NumberField.Input />
+          <NumberField.IncrementButton />
+        </NumberField.Group>
+        <FieldError />
+      </NumberField>
+
+      <TextField
+        name="email"
+        type="email"
+        value={values.email}
+        onChange={setField("email")}
+        isRequired
+      >
+        <Label>Email</Label>
+        <Input />
+        <FieldError />
+      </TextField>
 
       <div className="flex justify-end gap-2 pt-2">
         <Button type="button" slot="close" size="sm" variant="ghost">
@@ -67,7 +131,7 @@ const UserForm = ({ defaultValues, submitLabel, isPending, onSubmit }: Props) =>
           {submitLabel}
         </Button>
       </div>
-    </form>
+    </Form>
   );
 };
 
